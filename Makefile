@@ -23,6 +23,18 @@ PURPLE=\033[0;35m
 CYAN=\033[0;36m
 NC=\033[0m # No Color
 
+######################
+# PLATFORM DEPENDENT #
+######################
+UNAME := $(shell uname)
+ifeq ($(UNAME),Linux)
+    GDB = gdb
+endif
+
+ifeq ($(UNAME),Darwin)
+    GDB = lldb
+endif
+
 all : dependencies multiboot kernel
 	@echo "${GREEN}😏  Linking..${NC}"
 	@ld ${LINKER_FLAGS} -T ${LINKER_SRC} -o ${BUILDDIR}${NAME} ${OBJS_TARGET}
@@ -39,6 +51,14 @@ kernel : ${OBJS_TARGET}
 
 multiboot : ${OBJS_TARGET}
 	@echo "${GREEN}📇  Boot complete${NC}"
+
+debug: all
+	@mkdir -p iso/boot/grub
+	@cp build/kfs.bin iso/boot/kfs.bin
+	@cp boot/grub.cfg iso/boot/grub/grub.cfg
+	@grub-mkrescue -o boot/kfs.iso iso 
+	@qemu-system-i386  -gdb tcp::1234  -cdrom boot/kfs.iso &
+	@${GDB} -ex "target remote localhost:1234" -ex "symbol-file build/kfs.bin"
 
 dependencies : 
 	@bash check_dependencies.sh 
