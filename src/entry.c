@@ -108,8 +108,14 @@ void kernel_main(void)
 	terminal_writestring("Hello, kernel World!");
 
 	// change cursor
-	port_byte_out(0x3d4, 0xe);
-	port_byte_out(0x3d5, 0x00);
-	port_byte_out(0x3d4, 0xf);
-	port_byte_out(0x3d5, 0x50);
+	// port_byte_out(0x3d4, 0xe);
+	// port_byte_out(0x3d5, 0x00);
+	// port_byte_out(0x3d4, 0xf);
+	// port_byte_out(0x3d5, 0x50);
+
+	// halt loop
+	while (1)
+	{
+		
+	}
 }

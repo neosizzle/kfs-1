@@ -4,12 +4,14 @@
 NAME = kfs.bin
 BOOT_SRCS = boot/boot.s
 BOOT_FLAGS = -f elf32
-KERNEL_SRCS = src/entry.c
-KERNEL_FLAGS = -m32 -c -std=gnu99 -fno-builtin -fno-exceptions -fno-stack-protector -fno-rtti -nostdlib -nodefaultlibs -Wall -Wextra
+KERNEL_SRCS += src/entry.c src/interrupts/interrupts.c
+KERNEL_SRCS_ASM += src/interrupts/asm/handler-defs.s 
+KERNEL_FLAGS = -m32 -c -std=gnu99 -fno-builtin -fno-exceptions -fno-stack-protector -fno-rtti  -nostdlib -nodefaultlibs -Wall -Wextra
+KERNEL_INCS += -I src/ -I src/interrupts/
 LINKER_SRC = boot/linker.ld
 LINKER_FLAGS = -m elf_i386
 BUILDDIR = build/
-OBJS = ${KERNEL_SRCS:.c=.o} ${BOOT_SRCS:.s=.o}
+OBJS = ${KERNEL_SRCS:.c=.o} ${KERNEL_SRCS_ASM:.s=.o} ${BOOT_SRCS:.s=.o}
 OBJS_TARGET=${addprefix ${BUILDDIR},${subst /,_,${OBJS}}}
 
 ##########
@@ -61,6 +63,7 @@ debug: all
 	@${GDB} -ex "target remote localhost:1234" -ex "symbol-file build/kfs.bin"
 
 dependencies : 
+	@ echo ${OBJS}
 	@bash check_dependencies.sh 
 
 build/%.o : ${OBJS}
@@ -68,7 +71,7 @@ build/%.o : ${OBJS}
 
 .c.o :
 	@echo "${GREEN}📇  Compiling $<..${NC}"
-	@gcc $< ${KERNEL_FLAGS} -o ${BUILDDIR}${subst /,_,$@}
+	@gcc $< ${KERNEL_FLAGS} ${KERNEL_INCS} -o ${BUILDDIR}${subst /,_,$@}
 
 .s.o :
 	@echo "${GREEN}📇  Assembling $<..${NC}"
