@@ -4,7 +4,7 @@
 NAME = kfs.bin
 BOOT_SRCS = boot/boot.s
 BOOT_FLAGS = -f elf32
-KERNEL_SRCS += src/entry.c src/interrupts/interrupts.c
+KERNEL_SRCS += src/entry.c src/interrupts/interrupts.c src/interrupts/idt.c
 KERNEL_SRCS_ASM += src/interrupts/asm/handler-defs.s 
 KERNEL_FLAGS = -m32 -c -std=gnu99 -fno-builtin -fno-exceptions -fno-stack-protector -fno-rtti  -nostdlib -nodefaultlibs -Wall -Wextra
 KERNEL_INCS += -I src/ -I src/interrupts/

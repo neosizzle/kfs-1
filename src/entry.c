@@ -1,3 +1,5 @@
+void init_interrupts();
+
 /* Hardware text mode color constants. */
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -21,7 +23,7 @@ enum vga_color {
 typedef unsigned short int uint16_t;
 typedef unsigned char uint8_t;
 
-static void port_byte_out(uint16_t port, uint8_t data)
+void port_byte_out(uint16_t port, uint8_t data)
 {
 	__asm__("out %%al, %%dx" : :"a"(data), "d"(port));
 }
@@ -35,7 +37,7 @@ static inline int vga_entry(unsigned char uc, int color)
 {
 	return (int) uc | (int) color << 8;
 }
- 
+
 int strlen(const char* str) 
 {
 	int len = 0;
@@ -104,17 +106,24 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
  
-	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!");
-
 	// change cursor
 	// port_byte_out(0x3d4, 0xe);
 	// port_byte_out(0x3d5, 0x00);
 	// port_byte_out(0x3d4, 0xf);
 	// port_byte_out(0x3d5, 0x50);
 
+	// init interrupts
+	init_interrupts();
+
+	// test int 0
+	__asm__ __volatile__("int $1");
+	__asm__ __volatile__("int $5");
+
+	// enable interrupt
+	__asm__ __volatile__("sti");
+
 	// halt loop
-	while (1)
+	// while (1)
 	{
 		
 	}
