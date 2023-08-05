@@ -2,6 +2,7 @@
 #include "string.h"
 #include "io.h"
 #include "types.h"
+#include "video.h"
 
 static const int VGA_WIDTH = 40;
 static const int VGA_HEIGHT = 25;
@@ -12,25 +13,6 @@ int terminal_color;
 int* terminal_buffer;
 int cursor_index;
 
-/* Hardware text mode color constants. */
-enum vga_color {
-	VGA_COLOR_BLACK = 0,
-	VGA_COLOR_BLUE = 1,
-	VGA_COLOR_GREEN = 2,
-	VGA_COLOR_CYAN = 3,
-	VGA_COLOR_RED = 4,
-	VGA_COLOR_MAGENTA = 5,
-	VGA_COLOR_BROWN = 6,
-	VGA_COLOR_LIGHT_GREY = 7,
-	VGA_COLOR_DARK_GREY = 8,
-	VGA_COLOR_LIGHT_BLUE = 9,
-	VGA_COLOR_LIGHT_GREEN = 10,
-	VGA_COLOR_LIGHT_CYAN = 11,
-	VGA_COLOR_LIGHT_RED = 12,
-	VGA_COLOR_LIGHT_MAGENTA = 13,
-	VGA_COLOR_LIGHT_BROWN = 14,
-	VGA_COLOR_WHITE = 15,
-};
 
 static inline int vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -66,7 +48,7 @@ void terminal_initialize(void)
 {
 	terminal_row = 0;
 	terminal_column = 0;
-	terminal_color = vga_entry_color(VGA_COLOR_CYAN, VGA_COLOR_BLACK);
+	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 	terminal_buffer = (int*) 0xB8000;
 	cursor_index = 0;
 	terminal_clear();
@@ -87,7 +69,7 @@ void terminal_putentryat(char c, int color, int x, int y)
 	put_cursor_at(cursor_index);
 }
  
-void terminal_putchar(char c) 
+void terminal_putchar(char c, int color) 
 {
 	// newline support
 	if (c == '\n')
@@ -107,7 +89,7 @@ void terminal_putchar(char c)
 		}
 		return;
 	}
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	terminal_putentryat(c, color, terminal_column, terminal_row);
 	// limit check
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
@@ -122,7 +104,7 @@ void terminal_putchar(char c)
 void terminal_write(const char* data, int size) 
 {
 	for (int i = 0; i < size; i++)
-		terminal_putchar(data[i]);
+		terminal_putchar(data[i], terminal_color);
 }
 
 void terminal_writestring(const char* data) 

@@ -13,7 +13,8 @@
 %macro error_code_isr_handler 1
 	global isr_handler_%1
 		isr_handler_%1:
-		push dword %1 ; push the parameter as error code & interrupt number
+		push %1 ; push the parameter as error code & interrupt number
+		push %1 ; push the parameter as error code & interrupt number
 		jmp common_isr_handler ; jump to the common handler
 %endmacro
 

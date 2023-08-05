@@ -43,7 +43,7 @@ char *messages[] = {
 };
 
 // function to handle all software interrupts
-void isr_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state stack)
+void isr_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state stack)
 {
 	// TODO check stack state is valid
 	(void) cpu;
@@ -52,7 +52,8 @@ void isr_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state
 	char *msg = messages[intr_no];
 	char *msg2 = messages[err_code];
 
-	// terminal_writestring(msg);
+	terminal_writestring(msg);
+	terminal_writestring("\n");
 	terminal_writestring(msg2);
 	// while (1)
 	// {
@@ -61,7 +62,7 @@ void isr_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state
 }
 
 // function to handle all hardware interrupts
-void irq_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state stack)
+void irq_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state stack)
 {
 	terminal_writestring("slayy");
 	// while (1)

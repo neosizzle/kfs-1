@@ -10,8 +10,7 @@ void kernel_main(void)
 	terminal_initialize();
  
 	// change cursor
-	terminal_writestring("Hello 42!\n");
-	
+	printk("%s %d!\n", "Hello", 42);
 
 	/* Initialize interrupts */
 	init_interrupts();
