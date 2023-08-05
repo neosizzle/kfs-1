@@ -3,14 +3,15 @@
 #include "io.h"
 #include "string.h"
 #include "video.h"
- 
+#include "printk.h"
+
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
  
-	// change cursor
-	printk("%s %d!\n", "Hello", 42);
+	/* Print banner */
+	printk("%s %c%d!\n", "Hello", '4', 2);
 
 	/* Initialize interrupts */
 	init_interrupts();

@@ -4,13 +4,13 @@
 #include "types.h"
 #include "video.h"
 
-static const int VGA_WIDTH = 40;
+static const int VGA_WIDTH = 80;
 static const int VGA_HEIGHT = 25;
 
 int terminal_row;
 int terminal_column;
 int terminal_color;
-int* terminal_buffer;
+uint16_t* terminal_buffer;
 int cursor_index;
 
 
@@ -49,7 +49,7 @@ void terminal_initialize(void)
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-	terminal_buffer = (int*) 0xB8000;
+	terminal_buffer = (uint16_t*) 0xB8000;
 	cursor_index = 0;
 	terminal_clear();
 }
@@ -65,7 +65,7 @@ void terminal_putentryat(char c, int color, int x, int y)
 	terminal_buffer[index] = vga_entry(c, color);
 
 	// change cursors
-	cursor_index += 2;
+	++cursor_index;
 	put_cursor_at(cursor_index);
 }
  
@@ -78,7 +78,7 @@ void terminal_putchar(char c, int color)
 		++terminal_row;
 
 		// change cursors
-		cursor_index = 2 * (terminal_row * VGA_WIDTH);
+		cursor_index = (terminal_row * VGA_WIDTH);
 		put_cursor_at(cursor_index);
 		
 		// limit check
