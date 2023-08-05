@@ -1,11 +1,9 @@
 #ifndef __INTERRUPTS__H__
 #define __INTERRUPTS__H__
 
-void init_interrupts(void);
-
 /* this struct is created using pusha from the asm interrupt handler */
 typedef struct __attribute__((packed)) cpu_state {
-   u32 edi, esi, ebp, esp, ebx, edx, ecx, eax; /* Pushed by pusha. */
+   uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; /* Pushed by pusha. */
 }  cpu_state;
 
 
@@ -14,10 +12,14 @@ typedef struct __attribute__((packed)) cpu_state {
  * when calling to the handler function
 */
 typedef struct __attribute__((packed)) stack_state {
-	u32 error_code;
-	u32 eip;
-	u32 cs; // segment selector, needed to generate idt entry
-	u32 eflags;
+	uint32_t error_code;
+	uint32_t eip;
+	uint32_t cs; // segment selector, needed to generate idt entry
+	uint32_t eflags;
 }  stack_state;
+
+void init_interrupts(void);
+void enable_interrupts(void);
+void disable_interrupts(void);
 
 #endif  //!__INTERRUPTS__H__

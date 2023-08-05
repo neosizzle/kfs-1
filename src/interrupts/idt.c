@@ -3,13 +3,14 @@
 
 // array of idt entries
 #define NUM_IDT_ENTRIES 256
+
 idt_entry idt_entries[NUM_IDT_ENTRIES];
 
 // idt table itself
 idt_table _idt_table;
 
 // create handler for an entry
-void create_idt_entry(int index, u32 handler)
+void create_idt_entry(int index, uint32_t handler)
 {
 	unsigned short cs;
     __asm__ ("mov %%cs, %0" : "=r" (cs));
@@ -24,7 +25,7 @@ void create_idt_entry(int index, u32 handler)
 // register thr IDT. from this point on, interrupt handlers will run
 void register_idt()
 {
-	_idt_table.base = (u32) &idt_entries;
+	_idt_table.base = (uint32_t) &idt_entries;
 	_idt_table.limit = NUM_IDT_ENTRIES * sizeof(idt_entries) - 1;
 	__asm__ __volatile__("lidtl (%0)" : : "r" (&_idt_table));
 }

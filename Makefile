@@ -4,10 +4,11 @@
 NAME = kfs.bin
 BOOT_SRCS = boot/boot.s
 BOOT_FLAGS = -f elf32
-KERNEL_SRCS += src/entry.c src/interrupts/interrupts.c src/interrupts/idt.c
+KERNEL_SRCS += src/entry.c src/interrupts/interrupts.c src/interrupts/idt.c \
+			src/io/io.c src/string/string.c src/video/video.c
 KERNEL_SRCS_ASM += src/interrupts/asm/handler-defs.s 
 KERNEL_FLAGS = -m32 -c -std=gnu99 -fno-builtin -fno-exceptions -fno-stack-protector -fno-rtti  -nostdlib -nodefaultlibs -Wall -Wextra
-KERNEL_INCS += -I src/ -I src/interrupts/
+KERNEL_INCS += -I src/ -I src/interrupts/ -I src/io/ -I src/string/ -I src/video/
 LINKER_SRC = boot/linker.ld
 LINKER_FLAGS = -m elf_i386
 BUILDDIR = build/
