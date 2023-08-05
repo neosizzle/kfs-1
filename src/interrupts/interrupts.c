@@ -3,6 +3,11 @@
 #include "interrupts.h"
 #include "io.h"
 #include "video.h"
+#include "printk.h"
+#include "keyboard.h"
+
+#define PIC_PORT 0x20
+#define PIC_BYTE_ACK 0x20
 
 char *messages[] = {
     "Division By Zero",
@@ -64,11 +69,20 @@ void isr_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state
 // function to handle all hardware interrupts
 void irq_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state stack)
 {
-	terminal_writestring("slayy");
+	// terminal_writestring("slayy");
+	// ack pic
+	disable_interrupts();
+	port_byte_out(PIC_PORT, PIC_BYTE_ACK);
+	if (intr_no == 1)
+	{
+		handle_keyboard();
+	}
 	// while (1)
 	// {
 		
 	// }
+	
+	enable_interrupts();
 }
 
 // enable hardware interrupts
@@ -134,8 +148,6 @@ void init_interrupts()
     port_byte_out(0xA1, 0x01);
     port_byte_out(0x21, a1);
     port_byte_out(0xA1, a2); 
-
-	port_byte_out(0x21, 0xFD);
 
 	// irq
 	create_idt_entry(32 + 0, (uint32_t)irq_handler_0);

@@ -29,5 +29,6 @@ void terminal_putchar(char c, int color);
 void terminal_write(const char* data, int size);
 void terminal_writestring(const char* data);
 void terminal_clear(void);
+void terminal_writestring_color(const char* data,int color);
 
 #endif  //!__VIDEO__H__

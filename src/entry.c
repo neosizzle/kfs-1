@@ -4,6 +4,7 @@
 #include "string.h"
 #include "video.h"
 #include "printk.h"
+#include "console.h"
 
 void kernel_main(void) 
 {
@@ -12,6 +13,9 @@ void kernel_main(void)
  
 	/* Print banner */
 	printk("%s %c%d!\n", "Hello", '4', 2);
+
+	/* Init console*/
+	init_console();
 
 	/* Initialize interrupts */
 	init_interrupts();

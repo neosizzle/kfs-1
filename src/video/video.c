@@ -3,9 +3,18 @@
 #include "io.h"
 #include "types.h"
 #include "video.h"
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
+#define VGA_CAPACITY VGA_WIDTH * VGA_HEIGHT
+#define MAX_SCREENS 3
 
-static const int VGA_WIDTH = 80;
-static const int VGA_HEIGHT = 25;
+struct screen {
+	uint16_t video_buffer[VGA_CAPACITY];
+	int row;
+	int column;
+	int color;
+	int cursor_index;
+};
 
 int terminal_row;
 int terminal_column;
@@ -13,6 +22,8 @@ int terminal_color;
 uint16_t* terminal_buffer;
 int cursor_index;
 
+struct screen screens[MAX_SCREENS];
+int current_screen;
 
 static inline int vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -52,6 +63,17 @@ void terminal_initialize(void)
 	terminal_buffer = (uint16_t*) 0xB8000;
 	cursor_index = 0;
 	terminal_clear();
+
+	for (int i = 0; i < MAX_SCREENS; i++)
+	{
+		for (int y = 0; y < VGA_HEIGHT; y++) {
+			for (int x = 0; x < VGA_WIDTH; x++) {
+				const int index = y * VGA_WIDTH + x;
+				screens[i].video_buffer[index] = vga_entry(' ', terminal_color);
+			}
+		}
+	}
+	currente_screen = 0;
 }
 
 void terminal_setcolor(int color) 
@@ -110,4 +132,11 @@ void terminal_write(const char* data, int size)
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
+}
+
+void terminal_writestring_color(const char* data,int color) 
+{
+	int size = strlen(data);
+	for (int i = 0; i < size; i++)
+		terminal_putchar(data[i], color);
 }

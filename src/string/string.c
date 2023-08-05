@@ -33,3 +33,22 @@ void itoa(int n, char s[])
     s[i] = '\0';
     reverse(s);
 }
+
+int	strncmp(const char *s1, const char *s2, int n)
+{
+	if (!n)
+		return (0);
+	while ((*s1) && (*s1 == *s2) && --n)
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
+
+int	strcmp(const char *s1, const char *s2)
+{
+	if (strlen(s1) > strlen(s2))
+		return strncmp(s1, s2, strlen(s1));
+	return strncmp(s1, s2, strlen(s2));
+}
