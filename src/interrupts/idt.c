@@ -1,10 +1,7 @@
 #include "types.h"
 #include "idt.h"
 
-// array of idt entries
-#define NUM_IDT_ENTRIES 256
-
-idt_entry idt_entries[NUM_IDT_ENTRIES];
+idt_entry idt_entries[256];
 
 // idt table itself
 idt_table _idt_table;
@@ -26,6 +23,6 @@ void create_idt_entry(int index, uint32_t handler)
 void register_idt()
 {
 	_idt_table.base = (uint32_t) &idt_entries;
-	_idt_table.limit = NUM_IDT_ENTRIES * sizeof(idt_entries) - 1;
+	_idt_table.limit = 256 * sizeof(idt_entries) - 1;
 	__asm__ __volatile__("lidtl (%0)" : : "r" (&_idt_table));
 }

@@ -64,6 +64,10 @@ void isr_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state
 void irq_handler(cpu_state cpu, uint32_t err_code, uint32_t intr_no, stack_state stack)
 {
 	terminal_writestring("slayy");
+	// while (1)
+	// {
+		
+	// }
 }
 
 // enable hardware interrupts

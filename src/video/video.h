@@ -7,5 +7,6 @@ void terminal_putentryat(char c, int color, int x, int y);
 void terminal_putchar(char c);
 void terminal_write(const char* data, int size);
 void terminal_writestring(const char* data);
+void terminal_clear(void);
 
 #endif  //!__VIDEO__H__

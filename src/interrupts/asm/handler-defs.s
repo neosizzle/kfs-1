@@ -17,7 +17,7 @@
 		jmp common_isr_handler ; jump to the common handler
 %endmacro
 
-%macro irq_handler 2
+%macro no_error_code_irq_handler 2
 	global irq_handler_%1
 		irq_handler_%1:
 		push %2 ; push the index (master and slave)
@@ -95,22 +95,22 @@ no_error_code_isr_handler 30
 no_error_code_isr_handler 31
 
 ;IRQs (hardware interrupts)
-irq_handler 0, 32
-irq_handler 1, 33
-irq_handler 2, 34
-irq_handler 3, 35
-irq_handler 4, 36
-irq_handler 5, 37
-irq_handler 6, 38
-irq_handler 7, 39
-irq_handler 8, 40
-irq_handler 9, 41
-irq_handler 10, 42
-irq_handler 11, 43
-irq_handler 12, 44
-irq_handler 13, 45
-irq_handler 14, 46
-irq_handler 15, 47
+no_error_code_irq_handler 0, 32
+no_error_code_irq_handler 1, 33
+no_error_code_irq_handler 2, 34
+no_error_code_irq_handler 3, 35
+no_error_code_irq_handler 4, 36
+no_error_code_irq_handler 5, 37
+no_error_code_irq_handler 6, 38
+no_error_code_irq_handler 7, 39
+no_error_code_irq_handler 8, 40
+no_error_code_irq_handler 9, 41
+no_error_code_irq_handler 10, 42
+no_error_code_irq_handler 11, 43
+no_error_code_irq_handler 12, 44
+no_error_code_irq_handler 13, 45
+no_error_code_irq_handler 14, 46
+no_error_code_irq_handler 15, 47
 
 ; no_error_code_isr_handler 32
 ; no_error_code_isr_handler 33

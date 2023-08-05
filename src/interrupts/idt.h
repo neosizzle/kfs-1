@@ -16,18 +16,18 @@ typedef struct __attribute__((packed)) idt_entry {
  * The IDT table itself
 */
 typedef struct __attribute__((packed)) idt_table {
-	uint32_t limit; // how many entries this table has?
+	uint16_t limit; // how many entries this table has?
 	uint32_t base; // address of the first entry
 } idt_table;
 
 // array of idt entries
-#define NUM_IDT_ENTRIES 256
-extern idt_entry idt_entries[NUM_IDT_ENTRIES];
+extern idt_entry idt_entries[256];
 
 // idt table itself
 extern idt_table _idt_table;
 
 void create_idt_entry(int index, uint32_t handler);
+void register_idt(void);
 
 // array of isr handler functions (declared in asm)
 extern void isr_handler_0();

@@ -10,17 +10,13 @@ void kernel_main(void)
 	terminal_initialize();
  
 	// change cursor
-	// port_byte_out(0x3d4, 0xe);
-	// port_byte_out(0x3d5, 0x00);
-	// port_byte_out(0x3d4, 0xf);
-	// port_byte_out(0x3d5, 0x50);
+	terminal_writestring("Hello 42!\n");
+	
 
-	// init interrupts
+	/* Initialize interrupts */
 	init_interrupts();
 
-	// test int 0
-
-	// enable interrupt
+	/* Enable interrupts */
 	enable_interrupts();
 
 	// halt loop
