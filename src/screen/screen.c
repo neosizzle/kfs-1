@@ -66,6 +66,8 @@ void screen_putentry_at(char c, int color, int x, int y)
 
 void screen_putchar(char c, int color) 
 {
+	(void) color;
+	
 	// newline support
 	if (c == '\n')
 	{
@@ -83,7 +85,6 @@ void screen_putchar(char c, int color)
 		}
 		return;
 	}
-	// screen_putentry_at(c, color, screens[current_screen].column, screens[current_screen].row);
 	// limit check
 	if (++screens[current_screen].column == VGA_WIDTH) {
 		screens[current_screen].column = 0;

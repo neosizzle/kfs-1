@@ -3,6 +3,8 @@
 #include "keyboard.h"
 #include "string.h"
 #include "console.h"
+#include "video.h"
+
 #define KBD_PORT 0x60
 #define MAX_SCANCODE_SIZE 0x80
 

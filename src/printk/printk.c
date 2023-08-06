@@ -41,24 +41,24 @@ void printk(char *str, ...)
 	}
 }
 
-void test(char* a, char b)
-{
-	char **a_addr = &a;
-	char *b_addr = a_addr - 41;
-	char addr_str[123];
+// void test(char* a, char b)
+// {
+// 	char **a_addr = &a;
+// 	char *b_addr = a_addr - 41;
+// 	char addr_str[123];
 
-	itoa((uint32_t)&a, addr_str);
-	terminal_writestring(addr_str);
-	terminal_writestring("\n");
-	itoa((uint32_t)&b, addr_str);
-	terminal_writestring(addr_str);
+// 	itoa((uint32_t)&a, addr_str);
+// 	terminal_writestring(addr_str);
+// 	terminal_writestring("\n");
+// 	itoa((uint32_t)&b, addr_str);
+// 	terminal_writestring(addr_str);
 
-	// itoa((uint32_t)&b, addr_str);
-	// terminal_writestring("\n");
-	// itoa((uint32_t)b_addr, addr_str);
-	// terminal_writestring(addr_str);
-	terminal_writestring("\n");
-	terminal_putchar(*b_addr, VGA_COLOR_LIGHT_GREY);
-	// itoa((uint32_t)b_addr, addr_str);
-	// terminal_writestring(addr_str);
-}
+// 	// itoa((uint32_t)&b, addr_str);
+// 	// terminal_writestring("\n");
+// 	// itoa((uint32_t)b_addr, addr_str);
+// 	// terminal_writestring(addr_str);
+// 	terminal_writestring("\n");
+// 	terminal_putchar(*b_addr, VGA_COLOR_LIGHT_GREY);
+// 	// itoa((uint32_t)b_addr, addr_str);
+// 	// terminal_writestring(addr_str);
+// }

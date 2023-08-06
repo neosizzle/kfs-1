@@ -69,7 +69,10 @@ void isr_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state
 // function to handle all hardware interrupts
 void irq_handler(cpu_state cpu, uint32_t intr_no, uint32_t err_code, stack_state stack)
 {
-	// terminal_writestring("slayy");
+	(void) cpu;
+	(void) err_code;
+	(void) stack;
+	
 	// ack pic
 	disable_interrupts();
 	port_byte_out(PIC_PORT, PIC_BYTE_ACK);

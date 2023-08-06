@@ -23,6 +23,6 @@ void create_idt_entry(int index, uint32_t handler)
 void register_idt()
 {
 	_idt_table.base = (uint32_t) &idt_entries;
-	_idt_table.limit = 256 * sizeof(idt_entries) - 1;
+	_idt_table.limit = (uint16_t) (256 * sizeof(idt_entries) - 1);
 	__asm__ __volatile__("lidtl (%0)" : : "r" (&_idt_table));
 }
