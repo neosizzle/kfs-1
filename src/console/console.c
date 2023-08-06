@@ -24,9 +24,11 @@ static void console_clear_buff_all(void)
 
 void console_clear_buff(void)
 {
+	int curr_screen = get_curr_screen();
+
 	for (int i = 0; i < 1024; i++)
-		console_buff[i] = 0;
-	console_buff_idx = 0;
+		console_inputs[current_screen].console_buff[i] = 0;
+	console_inputs[current_screen].console_buff_idx = 0;
 }
 
 void console_print_prompt(void)
@@ -48,19 +50,20 @@ void init_console(void)
 {
 	console_print_prompt();
 	console_print_prompt_rest();
-	console_clear_buff();
-	console_buff_idx = 0;
+	console_clear_buff_all();
 }
 
 void console_add_to_buff(char c)
 {
-	if (console_buff_idx >= 1023)
+	int curr_screen = get_curr_screen();
+
+	if (console_inputs[current_screen].console_buff_idx >= 1023)
 		return;
-	console_buff[console_buff_idx++] = c;
+	console_inputs[current_screen].console_buff[console_inputs[current_screen].console_buff_idx++] = c;
 }
 
 int console_process_buff(void)
 {
-	printk("\n%s\n", console_buff);
+	printk("\n%s\n", console_inputs[current_screen].console_buff);
 	return 0;
 }
