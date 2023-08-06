@@ -105,19 +105,11 @@ void handle_keyboard(void)
 	if (is_pressed > 0)
 	{
 		if (!strcmp(key.name, "f1"))
-		{
-			// printk("%s", key.name);
 			terminal_switchscreen(0);
-		}
 		else if (!strcmp(key.name, "f2"))
-		{
-			// printk("%s", key.name);
 			terminal_switchscreen(1);
-		}
 		else if (!strcmp(key.name, "f3"))
-		{
-			printk("%s", key.name);
-		}
+			terminal_switchscreen(2);
 		else if (!strcmp(key.name, "enter"))
 		{
 			// enter

@@ -8,8 +8,9 @@ int console_buff_idx;
 struct console_input {
 	char console_buff[1024];
 	int console_buff_idx;
-}
-struct console_inputs[MAX_SCREENS];
+};
+
+struct console_input console_inputs[MAX_SCREENS];
 
 static void console_clear_buff_all(void)
 {
@@ -27,8 +28,8 @@ void console_clear_buff(void)
 	int curr_screen = get_curr_screen();
 
 	for (int i = 0; i < 1024; i++)
-		console_inputs[current_screen].console_buff[i] = 0;
-	console_inputs[current_screen].console_buff_idx = 0;
+		console_inputs[curr_screen].console_buff[i] = 0;
+	console_inputs[curr_screen].console_buff_idx = 0;
 }
 
 void console_print_prompt(void)
@@ -57,13 +58,15 @@ void console_add_to_buff(char c)
 {
 	int curr_screen = get_curr_screen();
 
-	if (console_inputs[current_screen].console_buff_idx >= 1023)
+	if (console_inputs[curr_screen].console_buff_idx >= 1023)
 		return;
-	console_inputs[current_screen].console_buff[console_inputs[current_screen].console_buff_idx++] = c;
+	console_inputs[curr_screen].console_buff[console_inputs[curr_screen].console_buff_idx++] = c;
 }
 
 int console_process_buff(void)
 {
-	printk("\n%s\n", console_inputs[current_screen].console_buff);
+	int curr_screen = get_curr_screen();
+
+	printk("\n%s\n", console_inputs[curr_screen].console_buff);
 	return 0;
 }
