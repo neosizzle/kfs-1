@@ -3,27 +3,17 @@
 #include "io.h"
 #include "types.h"
 #include "video.h"
+#include "screen.h"
+
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 #define VGA_CAPACITY VGA_WIDTH * VGA_HEIGHT
-#define MAX_SCREENS 3
-
-struct screen {
-	uint16_t video_buffer[VGA_CAPACITY];
-	int row;
-	int column;
-	int color;
-	int cursor_index;
-};
 
 int terminal_row;
 int terminal_column;
 int terminal_color;
 uint16_t* terminal_buffer;
 int cursor_index;
-
-struct screen screens[MAX_SCREENS];
-int current_screen;
 
 static inline int vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -53,6 +43,7 @@ void terminal_clear(void)
 	}
 	cursor_index = 0;
 	put_cursor_at(cursor_index);
+	screen_clear();
 }
 
 void terminal_initialize(void) 
@@ -64,21 +55,14 @@ void terminal_initialize(void)
 	cursor_index = 0;
 	terminal_clear();
 
-	for (int i = 0; i < MAX_SCREENS; i++)
-	{
-		for (int y = 0; y < VGA_HEIGHT; y++) {
-			for (int x = 0; x < VGA_WIDTH; x++) {
-				const int index = y * VGA_WIDTH + x;
-				screens[i].video_buffer[index] = vga_entry(' ', terminal_color);
-			}
-		}
-	}
-	currente_screen = 0;
+	screens_init();
 }
 
 void terminal_setcolor(int color) 
 {
 	terminal_color = color;
+
+	screen_setcolor(color);
 }
 
 void terminal_putentryat(char c, int color, int x, int y) 
@@ -89,10 +73,14 @@ void terminal_putentryat(char c, int color, int x, int y)
 	// change cursors
 	++cursor_index;
 	put_cursor_at(cursor_index);
+
+	screen_putentry_at(c, color, x, y);
 }
  
 void terminal_putchar(char c, int color) 
 {
+	screen_putchar(c, color);
+
 	// newline support
 	if (c == '\n')
 	{
@@ -139,4 +127,25 @@ void terminal_writestring_color(const char* data,int color)
 	int size = strlen(data);
 	for (int i = 0; i < size; i++)
 		terminal_putchar(data[i], color);
+}
+
+int terminal_switchscreen(int idx)
+{
+	int res = screen_switch(idx);
+	struct screen new_screen;
+
+	if (res < 0)
+		return res;
+	new_screen = get_screen();
+
+	// copy screen contents
+	for (int i = 0; i < VGA_CAPACITY; i++)
+		terminal_buffer[i] = new_screen.video_buffer[i];
+	terminal_row = new_screen.row;
+	terminal_column = new_screen.column;
+	terminal_color = new_screen.color;
+	cursor_index = new_screen.cursor_index;
+	put_cursor_at(new_screen.cursor_index);
+
+	return 0;
 }

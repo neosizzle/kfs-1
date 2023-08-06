@@ -106,11 +106,13 @@ void handle_keyboard(void)
 	{
 		if (!strcmp(key.name, "f1"))
 		{
-			printk("%s", key.name);
+			// printk("%s", key.name);
+			terminal_switchscreen(0);
 		}
 		else if (!strcmp(key.name, "f2"))
 		{
-			printk("%s", key.name);
+			// printk("%s", key.name);
+			terminal_switchscreen(1);
 		}
 		else if (!strcmp(key.name, "f3"))
 		{
