@@ -44,6 +44,9 @@ all : dependencies multiboot kernel
 	@echo "${GREEN}😏  Linking..${NC}"
 	@ld ${LINKER_FLAGS} -T ${LINKER_SRC} -o ${BUILDDIR}${NAME} ${OBJS_TARGET}
 
+run : all
+	@qemu-system-i386 -kernel build/kfs.bin
+
 iso : all
 	@mkdir -p iso/boot/grub
 	@cp build/kfs.bin iso/boot/kfs.bin
