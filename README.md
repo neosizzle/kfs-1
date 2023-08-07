@@ -52,7 +52,7 @@ There are also some minor differences such as different Interrupt tables and Seg
 ## Disk drives
 One new thing that I have learnt here is to interact with disk drives. I was introduced with the mechanics of it and its functions being carried out via magnets
 
-![](https://hackmd.io/_uploads/B13DRlpq3.png)
+![](https://i.imgur.com/jE5rYf8.png)
 
 We can also index disk positions like memory using the CHS (Cylinder, Head, Sector) notation
 - Cylinder - Distance between head and edge of plate
@@ -95,7 +95,7 @@ Apparently you can tell the linker how to link your object files using a script 
 ## Testing Multiboot header file
 To test if anything works so far, I have c/ped an example kernel in C and adjusted by multiboot header to load it. I then compile them and link them, then proceed to generate an iso file and booted it with qemu. And viola, it works
 
-![](https://hackmd.io/_uploads/rJxA5oAc2.png)
+![](https://i.imgur.com/iCgngCo.png)
 
 ## Video memory
 When I was making the boot sector script earlier, they mentioned a specific address `0xB8000` I needed to manipulate
@@ -147,9 +147,9 @@ The color can be refrenced from [here](http://www.brackeen.com/vga/basics.html) 
 
 I made some changes to the kernel source I have earlier, and it did print out color, just like I expected.
 
-![](https://hackmd.io/_uploads/HJv6alMo3.png)
+![](https://i.imgur.com/dQDVLCs.png)
 
-![](https://hackmd.io/_uploads/rJKr1Wzo2.png)
+![](https://i.imgur.com/HWn4Zhr.png)
 
 
 ## Frame Buffer Cursor
@@ -161,7 +161,7 @@ The cursor is represented by a 16 bit integer and since the `in` and `out` instr
 
 With some amendments from the kernel source (and I forgot that GAS switches the instruction operands, and custom type definitions) I made relocated the cursor to (1, 0)
 
-![](https://hackmd.io/_uploads/HJRTIZGsn.png)
+![](https://i.imgur.com/236MuYZ.png)
 
 # Week 2
 
@@ -170,7 +170,7 @@ By launching the qemu vm with `qemu-system-i386  -gdb tcp::1234  -cdrom boot/kfs
 
 The makefile was also created, hopefully it wont break 
 
-![](https://hackmd.io/_uploads/rylUnl8oh.png)
+![](https://i.imgur.com/fF60nbV.png)
 
 
 ## IDT implementation and PIC configuration
@@ -185,11 +185,11 @@ I couldnt get it to work for a long time because i did not do the `sti` instruct
 ## Scroll and console implementation
 The scroll was implemented by clearing the screen once the limits have been reached, I also added a pseudo console that memoriezes what had been typed and prints the memorized buffer that after enter had been typed.
 
-![](https://hackmd.io/_uploads/HyOiX-0oh.gif)
+![](https://i.imgur.com/GhFfhZr.gif)
 
 
 ## Screen switch and screen context
-Screen switching was implemented by storing copies of the video array in memory, and cloning the data of the video array in storage to the frame buffer on switch. The console also needs to be amended accordingly to fit work around several screens. The fotkeys f1 - f3 are bound to switch the screen
+Screen switching was implemented by storing copies of the video array in memory, and cloning the data of the video array in storage to the frame buffer on switch. The console also needs to be amended accordingly to fit work around several screens. The fotkeys f1 - f3 are bound to switch the screen.
 
-![](https://hackmd.io/_uploads/SJ_ON-Rih.gif)
+![](https://i.imgur.com/e7h2Ra7.gif)
 
