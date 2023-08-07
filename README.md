@@ -177,8 +177,8 @@ The makefile was also created, hopefully it wont break
 I have implemented the handling of ISRs and IRQs of the kernel and had also configured the PIC to map hardware signals to interrupts. Its not fully interactive but I do get a response on a keystroke.
 
 
-<video autoplay loop muted playsinline src="https://i.imgur.com/bEFhwO0.mp4" type="video/mp4">
-</video>
+![](https://s11.gifyu.com/images/Sc0dl.gif)
+
 
 I couldnt get it to work for a long time because i did not do the `sti` instruction for enabling hardware interrupts..
 
